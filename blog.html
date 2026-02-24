@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Page</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+color:white;
+min-height:100vh;
+}
+
+.container{
+max-width:850px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+h1{
+font-size:32px;
+margin-bottom:25px;
+font-weight:700;
+}
+
+.thumbnail{
+width:100%;
+max-height:450px;
+object-fit:cover;
+border-radius:25px;
+margin-bottom:30px;
+box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+.button{
+display:inline-block;
+padding:16px 45px;
+background:linear-gradient(45deg,#ff00cc,#3333ff);
+border-radius:50px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+margin-bottom:35px;
+}
+
+.button:hover{
+transform:scale(1.08);
+}
+
+.content{
+text-align:left;
+line-height:1.8;
+color:#ddd;
+font-size:17px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1 id="title"></h1>
+
+<img id="thumbnail" class="thumbnail">
+
+<div id="watchBtn" class="button" onclick="handleClick()">
+Watch Video
+</div>
+
+<div class="content" id="content"></div>
+
+</div>
+
+<script>
+let sponsorOpened = false;
+let blog;
+
+fetch("blogs.json")
+.then(res=>res.json())
+.then(data=>{
+const index = localStorage.getItem("selectedBlog");
+blog = data[index];
+
+document.getElementById("title").innerText = blog.title;
+document.getElementById("thumbnail").src = blog.image;
+document.getElementById("content").innerText = blog.content;
+});
+
+function handleClick(){
+if(!sponsorOpened){
+window.open(blog.ad,"_blank");
+document.getElementById("watchBtn").innerText="Continue to Video";
+sponsorOpened=true;
+}else{
+window.location.href=blog.video;
+}
+}
+</script>
+
+</body>
+</html>
