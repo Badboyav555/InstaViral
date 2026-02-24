@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Premium Blog</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+color:white;
+min-height:100vh;
+}
+
+header{
+text-align:center;
+padding:25px;
+font-size:28px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+padding:30px;
+max-width:1200px;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border-radius:20px;
+overflow:hidden;
+cursor:pointer;
+transition:0.4s ease;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.card:hover{
+transform:translateY(-8px) scale(1.03);
+box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.card h3{
+padding:18px;
+font-size:18px;
+font-weight:600;
+}
+
+</style>
+</head>
+<body>
+
+<header>My Premium Blog</header>
+
+<div class="grid" id="blogList"></div>
+
+<script>
+fetch("blogs.json")
+.then(res => res.json())
+.then(data => {
+const container = document.getElementById("blogList");
+
+data.forEach((blog,index)=>{
+container.innerHTML += `
+<div class="card" onclick="openBlog(${index})">
+<img src="${blog.image}">
+<h3>${blog.title}</h3>
+</div>
+`;
+});
+
+window.blogData = data;
+});
+
+function openBlog(index){
+localStorage.setItem("selectedBlog", index);
+window.location.href="blog.html";
+}
+</script>
+
+</body>
+</html>
